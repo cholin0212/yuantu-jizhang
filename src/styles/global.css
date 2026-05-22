@@ -110,15 +110,36 @@ body {
 }
 
 .input-field {
+  display: block;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   border: 2px solid transparent;
   background: var(--cream-deep);
   border-radius: var(--radius-btn);
   padding: 14px 16px;
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 16px;
   color: var(--text);
   outline: none;
+  text-align: left;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 48px;
+  margin: 0;
+}
+
+.input-field::placeholder {
+  text-align: left;
+}
+
+.input-field[type='date'] {
+  text-align: left;
+  min-width: 0;
+}
+
+.input-field[type='date']::-webkit-date-and-time-value {
+  text-align: left;
 }
 
 .input-field:focus {

@@ -1,0 +1,57 @@
+/* 英文压在「远途」上方左对齐，不相对四字整体居中 */
+.brand-title-block {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.brand-title-en {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  line-height: 1;
+  align-self: flex-start;
+  padding-left: 0.06em;
+}
+
+.brand-title-main {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  margin: 0;
+}
+
+.brand-title-main > span {
+  display: inline-block;
+}
+
+.brand-char-bounce {
+  opacity: 0;
+  transform: translateY(28px) scale(0.4);
+  animation: brand-char-bounce 0.55s cubic-bezier(0.34, 1.45, 0.64, 1) forwards;
+}
+
+@keyframes brand-char-bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.4);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.08);
+  }
+  75% {
+    transform: translateY(3px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

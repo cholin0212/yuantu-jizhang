@@ -14,6 +14,7 @@ export const DEMO_LEDGERS: Ledger[] = [
     members: [ME, XIAOLU, AZHE],
     aaMemberIds: ['t1', 't2', 't3'],
     customRates: { UZS: 0.00057 },
+    customSubs: {},
     expenses: [
       {
         id: 'e1',
@@ -96,6 +97,7 @@ export const DEMO_LEDGERS: Ledger[] = [
     members: [ME],
     aaMemberIds: [],
     customRates: { THB: 0.2 },
+    customSubs: {},
     expenses: [
       {
         id: 'e6',

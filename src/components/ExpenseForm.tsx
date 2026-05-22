@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { CATEGORIES } from '../data/categories'
 import { CURRENCIES, getCurrency } from '../data/currencies'
 import type { CurrencyCode, Expense, Ledger, Traveler } from '../types'
@@ -9,6 +9,7 @@ interface ExpenseFormProps {
   ledger: Ledger
   editing?: Expense | null
   onSave: (expense: Expense) => void
+  onAddCustomSub: (primaryId: string, name: string) => void
   onClose: () => void
 }
 
@@ -16,39 +17,47 @@ function aaMembers(ledger: Ledger): Traveler[] {
   return ledger.members.filter((m) => ledger.aaMemberIds.includes(m.id))
 }
 
-export function ExpenseForm({ ledger, editing, onSave, onClose }: ExpenseFormProps) {
+export function ExpenseForm({ ledger, editing, onSave, onAddCustomSub, onClose }: ExpenseFormProps) {
   const isEdit = Boolean(editing)
   const hasAa = ledger.aaMemberIds.length > 0
   const aaList = aaMembers(ledger)
 
   const [primaryId, setPrimaryId] = useState(editing?.primaryId ?? CATEGORIES[0].id)
   const [subName, setSubName] = useState(editing?.subName ?? CATEGORIES[0].subs[0])
-  const [customSub, setCustomSub] = useState('')
   const [amount, setAmount] = useState(editing ? String(editing.amount) : '')
   const [currency, setCurrency] = useState<CurrencyCode>(editing?.currency ?? 'CNY')
   const [rate, setRate] = useState(editing?.rate ?? 1)
   const [paidById, setPaidById] = useState(editing?.paidById ?? ledger.members[0]?.id ?? '')
   const [enableSplit, setEnableSplit] = useState(
-    editing ? (editing.splitMemberIds.length > 0) : false,
+    editing ? editing.splitMemberIds.length > 0 : false,
   )
   const [splitMemberIds, setSplitMemberIds] = useState<string[]>(
     editing?.splitMemberIds.length ? [...editing.splitMemberIds] : aaList.map((m) => m.id),
   )
   const [note, setNote] = useState(editing?.note ?? '')
   const [imagePreview, setImagePreview] = useState<string | undefined>(editing?.imageData)
+  const [addingCustom, setAddingCustom] = useState(false)
+  const [newCustomName, setNewCustomName] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
+  const customInputRef = useRef<HTMLInputElement>(null)
 
   const cat = CATEGORIES.find((c) => c.id === primaryId)!
-  const effectiveSub = cat.custom && customSub.trim() ? customSub.trim() : subName
+  const extraSubs = ledger.customSubs[primaryId] ?? []
+  const allSubs = useMemo(() => [...cat.subs, ...extraSubs], [cat.subs, extraSubs])
+
   const num = parseNonNegative(amount)
   const safeRate = Math.max(0, rate)
   const amountCny = Math.round(num * safeRate * 100) / 100
 
   useEffect(() => {
-    if (editing && cat.custom && !cat.subs.includes(editing.subName)) {
-      setCustomSub(editing.subName)
+    if (editing && editing.primaryId === primaryId && allSubs.includes(editing.subName)) {
+      setSubName(editing.subName)
     }
-  }, [editing, cat])
+  }, [editing, primaryId, allSubs])
+
+  useEffect(() => {
+    if (addingCustom) customInputRef.current?.focus()
+  }, [addingCustom])
 
   const onCurrencyChange = (code: CurrencyCode) => {
     setCurrency(code)
@@ -70,8 +79,26 @@ export function ExpenseForm({ ledger, editing, onSave, onClose }: ExpenseFormPro
     reader.readAsDataURL(file)
   }
 
+  const selectPrimary = (id: string) => {
+    const next = CATEGORIES.find((c) => c.id === id)!
+    const extras = ledger.customSubs[id] ?? []
+    setPrimaryId(id)
+    setSubName(next.subs[0] ?? extras[0] ?? '')
+    setAddingCustom(false)
+    setNewCustomName('')
+  }
+
+  const confirmAddCustomSub = () => {
+    const name = newCustomName.trim()
+    if (!name) return
+    onAddCustomSub(primaryId, name)
+    setSubName(name)
+    setAddingCustom(false)
+    setNewCustomName('')
+  }
+
   const handleSubmit = () => {
-    if (num <= 0) return
+    if (num <= 0 || !subName.trim()) return
     const finalSplit =
       hasAa && enableSplit && splitMemberIds.length > 0 ? splitMemberIds : []
 
@@ -79,7 +106,7 @@ export function ExpenseForm({ ledger, editing, onSave, onClose }: ExpenseFormPro
       id: editing?.id ?? `e-${Date.now()}`,
       ledgerId: ledger.id,
       primaryId,
-      subName: effectiveSub,
+      subName: subName.trim(),
       amount: num,
       currency,
       rate,
@@ -117,11 +144,7 @@ export function ExpenseForm({ ledger, editing, onSave, onClose }: ExpenseFormPro
                     ? { background: c.color, color: 'var(--navy)' }
                     : undefined
                 }
-                onClick={() => {
-                  setPrimaryId(c.id)
-                  setSubName(c.subs[0])
-                  setCustomSub('')
-                }}
+                onClick={() => selectPrimary(c.id)}
               >
                 {c.name}
               </button>
@@ -132,33 +155,64 @@ export function ExpenseForm({ ledger, editing, onSave, onClose }: ExpenseFormPro
         <section className="form-section">
           <label>具体项</label>
           <div className="chip-row">
-            {cat.subs.map((s) => (
+            {allSubs.map((s) => (
               <button
                 key={s}
                 type="button"
-                className={`chip ${subName === s && !customSub ? 'active' : ''}`}
+                className={`chip ${subName === s ? 'active' : ''}`}
                 style={
-                  subName === s && !customSub
+                  subName === s
                     ? { background: cat.color + 'cc', color: 'var(--navy)' }
                     : undefined
                 }
-                onClick={() => {
-                  setSubName(s)
-                  setCustomSub('')
-                }}
+                onClick={() => setSubName(s)}
               >
                 {s}
               </button>
             ))}
+            <button
+              type="button"
+              className="chip chip-add"
+              style={{ borderColor: cat.color, color: cat.color }}
+              aria-label="添加自定义具体项"
+              onClick={() => {
+                setAddingCustom(true)
+                setNewCustomName('')
+              }}
+            >
+              ＋
+            </button>
           </div>
-          {cat.custom && (
-            <input
-              className="input-field"
-              style={{ marginTop: 10 }}
-              placeholder="或输入自定义活动名称…"
-              value={customSub}
-              onChange={(e) => setCustomSub(e.target.value)}
-            />
+          {addingCustom && (
+            <div className="custom-sub-add-row">
+              <input
+                ref={customInputRef}
+                className="input-field"
+                placeholder="输入自定义名称"
+                value={newCustomName}
+                onChange={(e) => setNewCustomName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') confirmAddCustomSub()
+                  if (e.key === 'Escape') {
+                    setAddingCustom(false)
+                    setNewCustomName('')
+                  }
+                }}
+              />
+              <button type="button" className="btn-pill btn-mint custom-sub-add-btn" onClick={confirmAddCustomSub}>
+                添加
+              </button>
+              <button
+                type="button"
+                className="btn-pill btn-ghost custom-sub-add-btn"
+                onClick={() => {
+                  setAddingCustom(false)
+                  setNewCustomName('')
+                }}
+              >
+                取消
+              </button>
+            </div>
           )}
         </section>
 

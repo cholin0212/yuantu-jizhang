@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BrandHeader } from '../components/BrandHeader'
 import { CatPlaneIllustration } from '../components/CatPlaneIllustration'
+import { OnboardingGuide } from '../components/OnboardingGuide'
 import { ReorderableLedgerList } from '../components/ReorderableLedgerList'
 import { COMPANION_COLORS } from '../data/travelerColors'
 import { useStore } from '../store'
+import { isOnboardingDone } from '../utils/storage'
 import type { Ledger, Traveler } from '../types'
 import './HomePage.css'
 
@@ -25,6 +27,9 @@ export function HomePage() {
   const [editStart, setEditStart] = useState('')
   const [editEnd, setEditEnd] = useState('')
   const [deleteTarget, setDeleteTarget] = useState<Ledger | null>(null)
+  const [showOnboarding, setShowOnboarding] = useState(
+    () => !isOnboardingDone(),
+  )
 
   const addCompanionField = () => setCompanionNames((prev) => [...prev, ''])
   const updateCompanion = (i: number, name: string) =>
@@ -62,6 +67,7 @@ export function HomePage() {
       aaMemberIds: companions.length > 0 ? members.map((m) => m.id) : [],
       expenses: [],
       customRates: {},
+      customSubs: {},
     }
     addLedger(ledger)
     resetNewModal()
@@ -126,19 +132,29 @@ export function HomePage() {
         </button>
       </div>
 
+      {isEmpty && showOnboarding && (
+        <OnboardingGuide
+          onDismiss={() => setShowOnboarding(false)}
+          onStartCreate={() => setShowNew(true)}
+        />
+      )}
+
       {showNew && (
         <div className="modal-overlay" onClick={resetNewModal}>
           <div className="modal-card modal-card-wide" onClick={(e) => e.stopPropagation()}>
             <h3>开启新旅程</h3>
-            <input
-              className="input-field"
-              placeholder="账本名称，如「京都红叶季」"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <div className="date-row">
-              <label className="date-field">
-                <span>出发日期</span>
+            <div className="modal-form">
+              <label className="form-field">
+                <span className="form-field-label">账本名称</span>
+                <input
+                  className="input-field"
+                  placeholder="如「京都红叶季」"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </label>
+              <label className="form-field">
+                <span className="form-field-label">出发日期</span>
                 <input
                   className="input-field"
                   type="date"
@@ -146,8 +162,8 @@ export function HomePage() {
                   onChange={(e) => setStartDate(e.target.value)}
                 />
               </label>
-              <label className="date-field">
-                <span>结束日期（可选）</span>
+              <label className="form-field">
+                <span className="form-field-label">结束日期（可选）</span>
                 <input
                   className="input-field"
                   type="date"
@@ -155,31 +171,31 @@ export function HomePage() {
                   onChange={(e) => setEndDate(e.target.value)}
                 />
               </label>
-            </div>
-            <div className="aa-setup-block">
-              <p className="aa-setup-label">需要 AA 平摊的同行人</p>
-              <p className="aa-setup-hint">不添加则仅为个人记账，记一笔时不会出现平摊选项</p>
-              {companionNames.map((name, i) => (
-                <div key={i} className="companion-row">
-                  <input
-                    className="input-field"
-                    placeholder={`同行人 ${i + 1} 昵称`}
-                    value={name}
-                    onChange={(e) => updateCompanion(i, e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    className="btn-icon-remove"
-                    aria-label="移除"
-                    onClick={() => removeCompanion(i)}
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-              <button type="button" className="btn-pill btn-ghost add-companion-btn" onClick={addCompanionField}>
-                ＋ 添加同行人
-              </button>
+              <div className="aa-setup-block">
+                <p className="aa-setup-label">需要 AA 平摊的同行人</p>
+                <p className="aa-setup-hint">不添加则仅为个人记账，记一笔时不会出现平摊选项</p>
+                {companionNames.map((name, i) => (
+                  <div key={i} className="companion-row">
+                    <input
+                      className="input-field"
+                      placeholder={`同行人 ${i + 1} 昵称`}
+                      value={name}
+                      onChange={(e) => updateCompanion(i, e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      className="btn-icon-remove"
+                      aria-label="移除"
+                      onClick={() => removeCompanion(i)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+                <button type="button" className="btn-pill btn-ghost add-companion-btn" onClick={addCompanionField}>
+                  ＋ 添加同行人
+                </button>
+              </div>
             </div>
             <div className="modal-actions">
               <button type="button" className="btn-pill btn-ghost" onClick={resetNewModal}>
@@ -197,15 +213,18 @@ export function HomePage() {
         <div className="modal-overlay" onClick={() => setEditingLedger(null)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <h3>编辑账本</h3>
-            <input
-              className="input-field"
-              placeholder="账本名称"
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-            />
-            <div className="date-row" style={{ marginTop: 10 }}>
-              <label className="date-field">
-                <span>出发日期</span>
+            <div className="modal-form">
+              <label className="form-field">
+                <span className="form-field-label">账本名称</span>
+                <input
+                  className="input-field"
+                  placeholder="账本名称"
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                />
+              </label>
+              <label className="form-field">
+                <span className="form-field-label">出发日期</span>
                 <input
                   className="input-field"
                   type="date"
@@ -213,8 +232,8 @@ export function HomePage() {
                   onChange={(e) => setEditStart(e.target.value)}
                 />
               </label>
-              <label className="date-field">
-                <span>结束日期（可选）</span>
+              <label className="form-field">
+                <span className="form-field-label">结束日期（可选）</span>
                 <input
                   className="input-field"
                   type="date"

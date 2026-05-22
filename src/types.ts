@@ -12,7 +12,6 @@ export interface CategoryDef {
   name: string
   color: string
   subs: string[]
-  custom?: boolean
 }
 
 export interface Traveler {
@@ -47,6 +46,8 @@ export interface Ledger {
   aaMemberIds: string[]
   expenses: Expense[]
   customRates: Partial<Record<CurrencyCode, number>>
+  /** 各分类下用户添加的自定义具体项 */
+  customSubs: Record<string, string[]>
 }
 
 export interface SettlementTransfer {

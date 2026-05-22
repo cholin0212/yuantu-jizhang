@@ -42,7 +42,6 @@ export const CATEGORIES: CategoryDef[] = [
     name: '活动',
     color: '#FF9ECD',
     subs: ['潜水', '滑翔伞', '按摩', '一日游'],
-    custom: true,
   },
 ]
 

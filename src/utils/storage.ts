@@ -1,7 +1,9 @@
-import { DEMO_LEDGERS } from '../data/demo'
 import type { Expense, Ledger, Traveler } from '../types'
 
 const STORAGE_KEY = 'yuantu-ledgers-v1'
+const ONBOARDING_KEY = 'yuantu-onboarding-done-v1'
+
+const DEMO_LEDGER_IDS = new Set(['ledger-uz', 'ledger-th'])
 
 const DEFAULT_MEMBER: Traveler = { id: 't-me', name: '我', color: '#B8A9E8' }
 
@@ -51,23 +53,32 @@ function migrateLedger(raw: Record<string, unknown>): Ledger {
     members: safeMembers,
     aaMemberIds,
     customRates: (raw.customRates as Ledger['customRates']) ?? {},
+    customSubs: (raw.customSubs as Ledger['customSubs']) ?? {},
     expenses: expensesRaw.map((e) =>
       migrateExpense(e as Record<string, unknown>, aaMemberIds),
     ),
   }
 }
 
+function isLegacyDemoOnly(ledgers: Ledger[]): boolean {
+  if (ledgers.length === 0) return false
+  return ledgers.every((l) => DEMO_LEDGER_IDS.has(l.id))
+}
+
 export function loadLedgers(): Ledger[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return structuredClone(DEMO_LEDGERS)
+    if (!raw) return []
     const parsed = JSON.parse(raw) as unknown
-    if (!Array.isArray(parsed) || parsed.length === 0) {
-      return structuredClone(DEMO_LEDGERS)
+    if (!Array.isArray(parsed) || parsed.length === 0) return []
+    const ledgers = parsed.map((item) => migrateLedger(item as Record<string, unknown>))
+    if (isLegacyDemoOnly(ledgers)) {
+      localStorage.removeItem(STORAGE_KEY)
+      return []
     }
-    return parsed.map((item) => migrateLedger(item as Record<string, unknown>))
+    return ledgers
   } catch {
-    return structuredClone(DEMO_LEDGERS)
+    return []
   }
 }
 
@@ -79,6 +90,18 @@ export function saveLedgers(ledgers: Ledger[]): void {
   }
 }
 
-export function hasSavedLedgers(): boolean {
-  return localStorage.getItem(STORAGE_KEY) !== null
+export function isOnboardingDone(): boolean {
+  try {
+    return localStorage.getItem(ONBOARDING_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+export function markOnboardingDone(): void {
+  try {
+    localStorage.setItem(ONBOARDING_KEY, '1')
+  } catch {
+    /* ignore */
+  }
 }

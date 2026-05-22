@@ -19,7 +19,7 @@ type Tab = 'journal' | 'stats' | 'settle'
 
 export function LedgerPage() {
   const { id } = useParams<{ id: string }>()
-  const { ledgers, addExpense, updateExpense, deleteExpense } = useStore()
+  const { ledgers, addExpense, updateExpense, deleteExpense, updateLedger } = useStore()
   const ledger = ledgers.find((l) => l.id === id)
   const [tab, setTab] = useState<Tab>('journal')
   const [showForm, setShowForm] = useState(false)
@@ -319,9 +319,11 @@ export function LedgerPage() {
         )}
       </main>
 
-      <button type="button" className="fab btn-pill btn-peach" onClick={openNew}>
-        ＋ 记一笔
-      </button>
+      {tab === 'journal' && (
+        <button type="button" className="fab btn-pill btn-peach" onClick={openNew}>
+          ＋ 记一笔
+        </button>
+      )}
 
       {showForm && (
         <ExpenseForm
@@ -330,6 +332,21 @@ export function LedgerPage() {
           onSave={(exp) => {
             if (editingExpense) updateExpense(ledger.id, exp)
             else addExpense(ledger.id, exp)
+          }}
+          onAddCustomSub={(primaryId, name) => {
+            updateLedger(ledger.id, (l) => {
+              const existing = l.customSubs[primaryId] ?? []
+              if (existing.includes(name) || getCategory(primaryId)?.subs.includes(name)) {
+                return l
+              }
+              return {
+                ...l,
+                customSubs: {
+                  ...l.customSubs,
+                  [primaryId]: [...existing, name],
+                },
+              }
+            })
           }}
           onClose={closeForm}
         />

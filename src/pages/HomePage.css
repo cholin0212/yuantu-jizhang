@@ -103,6 +103,7 @@
   padding: 24px;
   width: 100%;
   max-width: 340px;
+  box-sizing: border-box;
 }
 
 .modal-card-wide {
@@ -116,6 +117,37 @@
   color: var(--navy);
   margin-bottom: 16px;
   font-size: 1.2rem;
+  text-align: left;
+  width: 100%;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin: 0;
+}
+
+.form-field-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  text-align: left;
+  width: 100%;
+  line-height: 1.3;
+}
+
+.form-field .input-field {
+  width: 100%;
+  max-width: 100%;
 }
 
 .modal-actions {
@@ -175,25 +207,6 @@
   width: 100%;
   margin-top: 4px;
   font-size: 0.88rem;
-}
-
-.date-row {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.date-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.date-field > span {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--text-soft);
 }
 
 .delete-warn {
