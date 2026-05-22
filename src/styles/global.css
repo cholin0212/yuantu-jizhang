@@ -1,0 +1,172 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #f0ebe3;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-shell {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px 12px 32px;
+}
+
+.phone-frame {
+  width: 100%;
+  max-width: var(--phone-width);
+  min-height: 780px;
+  background: var(--cream);
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+}
+
+.display-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--navy);
+  letter-spacing: 0.02em;
+}
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 14px 24px;
+  border-radius: var(--radius-pill);
+  transition: transform 0.2s ease, opacity 0.2s;
+}
+
+.btn-pill:active {
+  transform: scale(0.97);
+}
+
+.btn-lavender {
+  background: var(--lavender);
+  color: var(--navy);
+}
+
+.btn-mint {
+  background: var(--mint);
+  color: var(--navy);
+}
+
+.btn-peach {
+  background: var(--peach);
+  color: var(--navy);
+}
+
+.btn-sun {
+  background: var(--sun);
+  color: var(--navy);
+}
+
+.btn-ghost {
+  background: var(--cream-deep);
+  color: var(--text);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background: var(--cream-deep);
+  color: var(--text);
+  transition: transform 0.15s;
+}
+
+.chip.active {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.input-field {
+  width: 100%;
+  border: 2px solid transparent;
+  background: var(--cream-deep);
+  border-radius: var(--radius-btn);
+  padding: 14px 16px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text);
+  outline: none;
+}
+
+.input-field:focus {
+  border-color: var(--lavender);
+  background: #fff;
+}
+
+.tab-bar {
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  background: var(--cream-deep);
+  border-radius: var(--radius-pill);
+}
+
+.tab-bar button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 8px;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  cursor: pointer;
+}
+
+.tab-bar button.active {
+  background: #fff;
+  color: var(--navy);
+}
+
+@keyframes float-gentle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes cloud-drift {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}

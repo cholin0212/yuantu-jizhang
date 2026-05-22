@@ -1,0 +1,17 @@
+.hero-scene {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 0 8px;
+}
+
+.hero-cat-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  animation: float-gentle 4.5s ease-in-out infinite;
+  user-select: none;
+  pointer-events: none;
+}

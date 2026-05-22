@@ -1,0 +1,158 @@
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(44, 62, 90, 0.35);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.expense-sheet {
+  width: 100%;
+  max-width: var(--phone-width);
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--cream);
+  border-radius: 28px 28px 0 0;
+  padding: 12px 20px 32px;
+  animation: slide-up 0.3s ease;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 5px;
+  background: var(--cream-deep);
+  border-radius: var(--radius-pill);
+  margin: 0 auto 16px;
+}
+
+.sheet-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+.form-section > label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.amount-input-wrap {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.amount-big {
+  flex: 1;
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+}
+
+.currency-select {
+  border: none;
+  background: var(--lavender);
+  color: var(--navy);
+  font-weight: 700;
+  border-radius: var(--radius-btn);
+  padding: 0 10px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  min-width: 130px;
+  max-width: 42%;
+}
+
+.rate-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  flex-wrap: wrap;
+}
+
+.rate-input {
+  width: 88px;
+  padding: 8px 10px;
+}
+
+.cny-preview {
+  margin-left: auto;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.toggle-row input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--lavender);
+}
+
+.journal-note {
+  resize: none;
+  margin-bottom: 12px;
+}
+
+.upload-btn {
+  width: 100%;
+}
+
+.image-preview-wrap {
+  position: relative;
+}
+
+.image-preview-wrap img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+}
+
+.image-preview-wrap button {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 8px;
+  font-size: 1.05rem;
+  padding: 16px;
+}

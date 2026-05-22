@@ -1,0 +1,48 @@
+.reorder-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reorder-list.is-dragging {
+  user-select: none;
+}
+
+.reorder-drag-hint {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #5aabaa;
+  text-align: center;
+  padding: 6px 0 2px;
+}
+
+.reorder-item {
+  position: relative;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.reorder-item.dragging {
+  opacity: 0.5;
+  transform: scale(0.98);
+}
+
+.reorder-item.drop-target::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6px;
+  height: 3px;
+  background: #8ed4b8;
+  border-radius: 2px;
+  z-index: 5;
+}
+
+body.ledger-reorder-active {
+  cursor: grabbing;
+  user-select: none;
+}
+
+body.ledger-reorder-active * {
+  cursor: grabbing;
+}

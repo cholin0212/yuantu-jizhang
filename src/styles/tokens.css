@@ -1,0 +1,23 @@
+:root {
+  --cream: #fff8ee;
+  --cream-deep: #f5efe3;
+  --navy: #3d5a6c;
+  --coffee: #4a3f35;
+  --text: #4a5a62;
+  --text-soft: #8a9a96;
+  --lavender: #c4b5e8;
+  --mint: #8ed4b8;
+  --peach: #ffb5a7;
+  --sun: #ffe066;
+  --coral: #ff9ecd;
+  --sky: #7ec8e3;
+  --teal: #5aabaa;
+  --orange: #ff9f5a;
+  --radius-pill: 999px;
+  --radius-card: 24px;
+  --radius-btn: 20px;
+  --shadow-soft: none;
+  --font-display: 'ZCOOL KuaiLe', 'Nunito', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --phone-width: 390px;
+}

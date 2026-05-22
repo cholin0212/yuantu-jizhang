@@ -1,0 +1,150 @@
+.swipe-ledger-wrap {
+  position: relative;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.swipe-left-actions {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  background: #d4ebe2;
+}
+
+.drag-handle-reveal {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 14px;
+  background: #8ed4b8;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.drag-handle-reveal:active {
+  cursor: grabbing;
+  background: #7ec8a8;
+}
+
+.drag-handle-reveal span {
+  display: block;
+  width: 16px;
+  height: 2.5px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.swipe-right-actions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 132px;
+  display: flex;
+  z-index: 0;
+}
+
+.swipe-act {
+  flex: 1;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  color: var(--navy);
+}
+
+.swipe-act.edit {
+  background: var(--lavender);
+}
+
+.swipe-act.delete {
+  background: var(--peach);
+}
+
+.swipe-ledger-panel {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.22s ease;
+  touch-action: pan-y;
+}
+
+.swipe-ledger-wrap.item-dragging .swipe-ledger-panel {
+  transition: none;
+}
+
+.swipe-ledger-panel .ledger-card {
+  width: 100%;
+  border: none;
+  background: #fff;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  display: block;
+  padding: 0;
+}
+
+.ledger-card-cover {
+  height: 52px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.ledger-cover-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ledger-cover-dates {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--navy);
+  opacity: 0.7;
+}
+
+.ledger-card-body {
+  padding: 10px 14px 12px;
+  background: #fff;
+}
+
+.ledger-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ledger-total {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--navy);
+}
+
+.ledger-count {
+  margin-left: auto;
+  font-size: 0.76rem;
+  color: var(--text-soft);
+  font-weight: 600;
+}

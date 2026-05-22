@@ -1,0 +1,1 @@
+export const COMPANION_COLORS = ['#98D8AA', '#FFB5A7', '#7EC8E3', '#FFE066', '#FF9ECD', '#C4B5FD']

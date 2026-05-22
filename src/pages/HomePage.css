@@ -1,0 +1,204 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 12px 20px 24px;
+}
+
+.home-empty {
+  justify-content: flex-start;
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px 24px;
+  text-align: center;
+}
+
+.empty-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: #5aabaa;
+  margin-top: 8px;
+  font-weight: 800;
+}
+
+.empty-hint {
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  margin-top: 10px;
+  line-height: 1.55;
+  max-width: 260px;
+  font-weight: 600;
+}
+
+.ledger-section {
+  flex: 1;
+  margin-top: 4px;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.section-head h2 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.badge-count {
+  background: var(--sun);
+  color: var(--navy);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.home-footer {
+  padding-top: 16px;
+  margin-top: auto;
+}
+
+.btn-create-main {
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 16px 24px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  background: #c4b5e8;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s;
+}
+
+.btn-create-main:active {
+  transform: scale(0.98);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(61, 90, 80, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 20px;
+}
+
+.modal-card {
+  background: var(--cream);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.modal-card-wide {
+  max-width: 360px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modal-card h3 {
+  font-family: var(--font-display);
+  color: var(--navy);
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modal-actions .btn-pill {
+  flex: 1;
+}
+
+.aa-setup-block {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 2px dashed var(--cream-deep);
+}
+
+.aa-setup-label {
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.aa-setup-hint {
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.companion-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.companion-row .input-field {
+  flex: 1;
+}
+
+.btn-icon-remove {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--cream-deep);
+  color: var(--text-soft);
+  font-size: 1.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.add-companion-btn {
+  width: 100%;
+  margin-top: 4px;
+  font-size: 0.88rem;
+}
+
+.date-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.date-field > span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-soft);
+}
+
+.delete-warn {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
